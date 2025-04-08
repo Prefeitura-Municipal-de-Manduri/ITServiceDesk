@@ -1,4 +1,4 @@
-import NavBar from '../Home/Navbar2'
+import NavBar from '../Home/Navbar'
 import Downloads from '../Downloads/Downloads'
 import Footer from '../Home/Footer'
 

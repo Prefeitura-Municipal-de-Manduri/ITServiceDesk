@@ -33,8 +33,7 @@ const List_Math = () => {
         const criticalCount = response.data.filter(item => item.prioridade === "critico").length;
         setCriticalCount(criticalCount);
         
-
-        const matheusPending = response.data.filter(item => item.tecnico === "Marcelo && !item.completed).length;
+        const matheusPending = response.data.filter(item => item.tecnico === "Marcelo" && !item.completed).length;
         const joaoPending = response.data.filter(item => item.tecnico === "João Luiz" && !item.completed).length;
 
         console.log("Chamados abertos para Marcelo:", matheusPending); 
@@ -49,7 +48,7 @@ const List_Math = () => {
 
     axios.get(`http://${IP.ip}:3001/finalizados`)
       .then(response => {
-        const matheusCompleted = response.data.filter(item => item.tecnico === "Marcelo).length;
+        const matheusCompleted = response.data.filter(item => item.tecnico === "Marcelo").length;
         const joaoCompleted = response.data.filter(item => item.tecnico === "João Luiz").length;
 
         console.log("Atendimentos finalizados por Marcelo:", matheusCompleted); 

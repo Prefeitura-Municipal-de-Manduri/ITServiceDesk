@@ -69,7 +69,7 @@ const CompanyFooter = () => {
 
         <Divider width="95%" color="gray.200" _dark={{ color: "#F9FAFB" }} />
         <Text textAlign="center" fontSize="sm" color="white" _hover={{ color: "green.600", _dark: { color: "gray.600" } }}>
-          Desenvolvido por Marcelo <a href="https://github.com/MatheusMarcelo01/ITServiceDesk"> (Departamento de TI/CPD - Prefeitura de Manduri)</a> - &copy;Todos os direitos reservados.
+          Desenvolvido por Marcelo <a href="https://github.com/Prefeitura-Municipal-de-Manduri/ITServiceDesk"> (Departamento de TI/CPD - Prefeitura de Manduri)</a> - &copy;Todos os direitos reservados.
         </Text>
       </VStack>
 
