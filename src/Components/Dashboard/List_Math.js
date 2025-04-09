@@ -51,7 +51,7 @@ const List = () => {
     axios.get(`http://${IP.ip}:3001/finalizados`)
       .then(response => {
         // Filtro para contar os finalizados apenas de Matheus e João
-        const matheusCompleted = response.data.filter(item => item.tecnico === "Matheus Marcelo").length;
+        const matheusCompleted = response.data.filter(item => item.tecnico === "Matheus Marcelo" || "Marcelo").length;
         const joaoCompleted = response.data.filter(item => item.tecnico === "João Luiz").length;
   
         setCompletedByMatheus(matheusCompleted);

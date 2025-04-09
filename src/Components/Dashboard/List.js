@@ -49,7 +49,7 @@ const List = () => {
   
     axios.get(`http://${IP.ip}:3001/finalizados`)
       .then(response => {
-        const matheusCompleted = response.data.filter(item => item.tecnico === "Marcelo").length;
+        const matheusCompleted = response.data.filter(item => item.tecnico === "Marcelo" || "Matheus Marcelo").length;
         const joaoCompleted = response.data.filter(item => item.tecnico === "João Luiz").length;
   
         setCompletedByMatheus(matheusCompleted);

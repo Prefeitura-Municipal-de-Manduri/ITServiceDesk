@@ -46,10 +46,16 @@ export default function App() {
       values.data = new Date().toLocaleString();
 
       let tecnico = "Marcelo";
-      if (values.tipos === "Liberação de sites bloqueados (para cursos como Youtube, etc)" || values.tipos === "Manutenção/instalação de softwares (PDF, Office (Word, Excel), etc.") {
+
+      if (
+
+        values.tipos.trim() === "Liberação de sites bloqueados (para cursos como no Youtube)" || 
+        values.tipos.trim() === "Manutenção/instalação de softwares: PDF, Office (Word, Excel), etc."
+      ) {
         tecnico = "João Luiz"; 
       }
       values.tecnico = tecnico;
+      
 
       axios.post(`http://${IP.ip}:3001/chamados`, values)
 
