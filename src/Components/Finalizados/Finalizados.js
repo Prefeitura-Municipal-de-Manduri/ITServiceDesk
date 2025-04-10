@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from "react";
-import {  Flex,  Table,  Tbody,  Td,  Th,  Thead,  Tr,} from "@chakra-ui/react";
+import {
+  Flex,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import IP from "../../Global_IP";
 
 const Choc = () => {
   const [data, setData] = useState([]);
 
+  // Define as colunas que você quer exibir
+  const columns = [
+    "id",
+    "nome",
+    "email",
+    "tipos",
+    "departamento",
+    "sobre",
+    "prioridade",
+    "data",
+    "tecnico",
+    "solution", // incluída manualmente
+  ];
 
   useEffect(() => {
     fetch(`http://${IP.ip}:3001/finalizados`)
@@ -47,10 +68,9 @@ const Choc = () => {
           }}
         >
           <Tr>
-            {Object.keys(data[0] || {}).map((key) => (
+            {columns.map((key) => (
               <Th key={key}>{key}</Th>
             ))}
-            <Th></Th>
           </Tr>
         </Thead>
         <Tbody
@@ -64,31 +84,33 @@ const Choc = () => {
             },
           }}
         >
-          {data.map((token, tid) => {
-            return (
-              <Tr
-                key={tid}
-                display={{
-                  base: "grid",
-                  md: "table-row",
-                }}
-                sx={{
-                  "@media print": {
-                    display: "table-row",
-                  },
-                  gridTemplateColumns: "minmax(0px, 35%) minmax(0px, 65%)",
-                  gridGap: "10px",
-                }}
-              >
-                {Object.keys(token).map((key) => (
-                  <Td key={`${tid}${key}`} color={"gray.500"} fontSize="md" fontWeight="hairline">
-                    {token[key]}
-                  </Td>
-                ))}
-                
-              </Tr>
-            );
-          })}
+          {data.map((token, tid) => (
+            <Tr
+              key={tid}
+              display={{
+                base: "grid",
+                md: "table-row",
+              }}
+              sx={{
+                "@media print": {
+                  display: "table-row",
+                },
+                gridTemplateColumns: "minmax(0px, 35%) minmax(0px, 65%)",
+                gridGap: "10px",
+              }}
+            >
+              {columns.map((key) => (
+                <Td
+                  key={`${tid}${key}`}
+                  color={"gray.500"}
+                  fontSize="md"
+                  fontWeight="hairline"
+                >
+                  {token[key] || "-"}
+                </Td>
+              ))}
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </Flex>

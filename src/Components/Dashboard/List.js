@@ -64,14 +64,22 @@ const List = () => {
   const [criticalCount, setCriticalCount] = useState(0);
 
   const handleComplete = (id) => {
-    const confirmComplete = window.confirm("Esse chamado foi finalizado com sucesso!");
-
+    const solution = window.prompt("Por favor, insira a solução do problema:");
+  
+    if (!solution) {
+      alert("A solução é obrigatória!");
+      return;
+    }
+  
     const item = data.find(item => item.id === id);
     if (!item) {
       return;
     }
   
-    axios.post(`http://${IP.ip}:3001/finalizados`, item)
+    // Adiciona a solução ao item
+    const itemWithSolution = { ...item, solution };
+  
+    axios.post(`http://${IP.ip}:3001/finalizados`, itemWithSolution)
       .then(response => {
         console.log('Chamado movido para finalizados:', response.data);
         axios.delete(`http://${IP.ip}:3001/chamados/${id}`)
