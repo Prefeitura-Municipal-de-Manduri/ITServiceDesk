@@ -1,4 +1,5 @@
-module.exports = {
-    ip: '192.168.0.162',
-  };
-  
+const IP = {
+  ip: '192.168.0.162',
+};
+
+export default IP;

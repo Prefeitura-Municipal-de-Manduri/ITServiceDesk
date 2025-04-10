@@ -5,7 +5,6 @@ const cors = require('cors');
 const config = require('./auth');
 const IP = require('../src/Global_IP'); 
 
-
 const app = express();
 const port = 3002;
 
@@ -13,22 +12,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// Rota para enviar chamados
+/* =============================
+   Rota original: Enviar novo chamado
+   ============================= */
 app.post('/chamados', (req, res) => {
-  const {tecnico, nome, email, tipos, departamento, sobre } = req.body;
+  const { tecnico, nome, email, tipos, departamento, sobre } = req.body;
 
-  // Configurar o transporte SMTP
   const transporter = nodemailer.createTransport({
-    host: config.provedor, // Aqui você acessa config.provedor
+    host: config.provedor,
     port: 587,
     secure: false,
     auth: {
-      user: config.email, // Aqui você acessa config.email
-      pass: config.senha // Aqui você acessa config.senha
+      user: config.email,
+      pass: config.senha
     }
   });
 
-  // Configurar o email
   const mailOptions = {
     from: config.email,
     to: 'cpd@manduri.sp.gov.br',
@@ -43,7 +42,6 @@ app.post('/chamados', (req, res) => {
     `
   };
 
-  // Enviar o email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Erro ao enviar o email:', error);
@@ -51,6 +49,48 @@ app.post('/chamados', (req, res) => {
     } else {
       console.log('Email enviado:', info.response);
       res.status(200).send('Chamado enviado com sucesso');
+    }
+  });
+});
+
+/* =============================
+   Nova rota: Enviar solução para o cliente
+   ============================= */
+app.post('/enviar-solucao', (req, res) => {
+  const { nome, email, tecnico, solution } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    host: config.provedor,
+    port: 587,
+    secure: false,
+    auth: {
+      user: config.email,
+      pass: config.senha
+    }
+  });
+
+  const mailOptions = {
+    from: config.email,
+    to: email,
+    subject: `Seu chamado foi finalizado - Suporte Técnico - ${tecnico}`,
+    html: `
+      <p>Olá <strong>${nome}</strong>,</p>
+      <p>Seu chamado foi finalizado pelo técnico <strong>${tecnico}</strong>.</p>
+      <p><strong>Solução aplicada:</strong></p>
+      <p>${solution}</p>
+      <br/>
+      <p>Se você tiver mais dúvidas, entre em contato com o setor de TI.</p>
+      <p>Atenciosamente,<br/>Suporte Técnico - Prefeitura de Manduri</p>
+    `
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Erro ao enviar solução por e-mail:', error);
+      res.status(500).send('Erro ao enviar solução');
+    } else {
+      console.log('Solução enviada ao cliente:', info.response);
+      res.status(200).send('Solução enviada com sucesso');
     }
   });
 });

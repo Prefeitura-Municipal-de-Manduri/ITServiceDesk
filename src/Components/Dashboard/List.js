@@ -72,23 +72,37 @@ const List = () => {
     }
   
     const item = data.find(item => item.id === id);
-    if (!item) {
-      return;
-    }
+    if (!item) return;
   
-    // Adiciona a solução ao item
     const itemWithSolution = { ...item, solution };
   
+    // Envia para banco de finalizados
     axios.post(`http://${IP.ip}:3001/finalizados`, itemWithSolution)
       .then(response => {
         console.log('Chamado movido para finalizados:', response.data);
+  
+        // Remove do banco de chamados
         axios.delete(`http://${IP.ip}:3001/chamados/${id}`)
           .then(() => {
             console.log('Chamado removido da lista de chamados');
             setData(data.filter(item => item.id !== id));
+  
+            // Envia o email com a solução
+            axios.post(`http://${IP.ip}:3002/enviar-solucao`, {
+              nome: item.nome,
+              email: item.email,
+              tecnico: item.tecnico,
+              solution: solution
+            }).then(() => {
+              alert('Chamado finalizado, e e-mail enviado ao solicitante com sucesso!');
+            }).catch(err => {
+              console.error('Erro ao enviar e-mail com solução:', err);
+              alert('Chamado finalizado, mas falha ao enviar e-mail.');
+            });
+  
           })
           .catch(error => {
-            console.error('Erro ao remover chamado da lista de chamados:', error);
+            console.error('Erro ao remover chamado:', error);
           });
       })
       .catch(error => {
