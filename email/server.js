@@ -3,7 +3,8 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('./auth');
-const IP = require('../src/Global_IP'); 
+const IP = require('../src/Global_IP');
+  
 
 const app = express();
 const port = 3002;
