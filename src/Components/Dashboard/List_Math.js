@@ -66,23 +66,45 @@ const List = () => {
   const [criticalCount, setCriticalCount] = useState(0);
 
   const handleComplete = (id) => {
-    const confirmComplete = window.confirm("Esse chamado foi finalizado com sucesso!");
-
-    const item = data.find(item => item.id === id);
-    if (!item) {
+    const solution = window.prompt("Por favor, insira a solução do problema:");
+  
+    if (!solution) {
+      alert("A solução é obrigatória!");
       return;
     }
   
-    axios.post(`http://${IP.ip}:3001/finalizados`, item)
+    const item = data.find(item => item.id === id);
+    if (!item) return;
+  
+    const itemWithSolution = { ...item, solution };
+  
+    // Envia para banco de finalizados
+    axios.post(`http://${IP.ip}:3001/finalizados`, itemWithSolution)
       .then(response => {
         console.log('Chamado movido para finalizados:', response.data);
+  
+        // Remove do banco de chamados
         axios.delete(`http://${IP.ip}:3001/chamados/${id}`)
           .then(() => {
             console.log('Chamado removido da lista de chamados');
             setData(data.filter(item => item.id !== id));
+  
+            // Envia o email com a solução
+            axios.post(`http://${IP.ip}:3002/enviar-solucao`, {
+              nome: item.nome,
+              email: item.email,
+              tecnico: item.tecnico,
+              solution: solution
+            }).then(() => {
+              alert('Chamado finalizado, e e-mail enviado ao solicitante com sucesso!');
+            }).catch(err => {
+              console.error('Erro ao enviar e-mail com solução:', err);
+              alert('Chamado finalizado, mas falha ao enviar e-mail.');
+            });
+  
           })
           .catch(error => {
-            console.error('Erro ao remover chamado da lista de chamados:', error);
+            console.error('Erro ao remover chamado:', error);
           });
       })
       .catch(error => {
