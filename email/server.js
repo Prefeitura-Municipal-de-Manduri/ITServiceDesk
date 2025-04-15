@@ -77,6 +77,8 @@ app.post('/enviar-solucao', (req, res) => {
     html: `
       <p>Olá <strong>${nome}</strong>,</p>
       <p>Seu chamado foi finalizado pelo técnico <strong>${tecnico}</strong>.</p>
+      <p><strong>Chamado aberto:</strong><p>
+      <p> ${sobre}</p>
       <p><strong>Solução aplicada:</strong></p>
       <p>${solution}</p>
       <br/>
