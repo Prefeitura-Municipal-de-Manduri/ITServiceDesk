@@ -38,7 +38,7 @@ const List = () => {
         setCriticalCount(criticalCount);
   
         // Chamados pendentes por Matheus e João 
-        const matheusPending = allData.filter(item => item.tecnico === "Marcelo" && !item.completed).length;
+        const matheusPending = allData.filter(item => item.tecnico === "Marcelo" || "Matheus Marcelo" && !item.completed).length;
         const joaoPending = allData.filter(item => item.tecnico === "João Luiz" && !item.completed).length;
 
         setPendingByMatheus(matheusPending);
