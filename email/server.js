@@ -13,9 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-/* =============================
-   Rota original: Enviar novo chamado
-   ============================= */
+/*Rota original: Enviar novo chamado*/
 app.post('/chamados', (req, res) => {
   const { tecnico, nome, email, tipos, departamento, sobre } = req.body;
 
@@ -54,9 +52,7 @@ app.post('/chamados', (req, res) => {
   });
 });
 
-/* =============================
-   Nova rota: Enviar solução para o cliente
-   ============================= */
+/*Enviar solução para o cliente*/
 app.post('/enviar-solucao', (req, res) => {
   const { nome, email, tecnico, solution } = req.body;
 
