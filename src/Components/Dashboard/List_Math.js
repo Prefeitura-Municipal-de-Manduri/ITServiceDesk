@@ -235,7 +235,6 @@ const List = () => {
           },
         }}
       >
-        {/* Cabeçalho da tabela */}
         <Thead
           display={{
             base: "none",
@@ -253,7 +252,6 @@ const List = () => {
             ))}
           </Tr>
         </Thead>
-        {/* Corpo da tabela */}
         <Tbody
           display={{
             base: "block",
@@ -284,7 +282,6 @@ const List = () => {
                 }}
                 className={token.id === completedId ? Styles.completed : ''}
               >
-                {/* Renderizando dados da linha */}
                 {Object.keys(otherData).map((x) => {
                   return (
                     <React.Fragment key={`${tid}${x}`}>

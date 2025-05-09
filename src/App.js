@@ -15,12 +15,6 @@ import Dashboard_Admin from './Components/Dashboard/Dashboard_Admin';
 import FAQSection from './Components/Home/FAQSection'
 
 
-
-
-
-
-
-
 const isAuthenticated = () => {
   // Verifica se há um token de autenticação no localStorage
   return localStorage.getItem("token") !== null;
