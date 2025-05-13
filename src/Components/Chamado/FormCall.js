@@ -167,7 +167,6 @@ export default function App() {
                       <option>Transportes</option>
                       <option>Licitação</option>
                       <option>Tesouraria</option>
-                      <option>Jurídico</option>
                       <option>Meio Ambiente</option>
                       <option>Almoxarifado</option>
                       <option>Engenharia</option>
