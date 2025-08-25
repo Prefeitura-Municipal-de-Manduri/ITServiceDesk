@@ -45,16 +45,20 @@ export default function App() {
     try {
       values.data = new Date().toLocaleString();
 
-      let tecnico = "Marcelo";
+    let tecnico = "Marcelo";
+
 
       if (
-
-        values.tipos.trim() === "Liberação de sites bloqueados (para cursos como no Youtube)" || 
-        values.tipos.trim() === "Manutenção/instalação de softwares: PDF, Office (Word, Excel), etc."
+        values.tipos.trim() === "Manutenção/instalação de softwares: PDF, Office (Word, Excel), etc." || 
+        values.tipos.trim() === "Manutenção relacionada a conexão com a internet e sites" || 
+        values.tipos.trim() === "Manutenção de telefone/ramal" || 
+        values.tipos.trim() === "Solicitação/manutenção de impressoras (consertos, troca de toners, etc.)"
       ) {
-        tecnico = "João Luiz"; 
+        tecnico = "João Diogo"; 
+		//tecnico = "Marcelo";
       }
       values.tecnico = tecnico;
+
       
 
       axios.post(`http://${IP.ip}:3001/chamados`, values)
@@ -209,6 +213,7 @@ export default function App() {
                     id="tipos"
                     name="tipos"
                     placeholder="Selecione o tipo de solicitação"
+
                   >
                       <option>Manutenção relacionada a conexão com a internet e sites</option>
                       <option>Manutenção de telefone/ramal</option>
@@ -216,7 +221,6 @@ export default function App() {
                       <option>Solicitação/manutenção de hardwares (Conserto de computador, equipamentos)</option>
                       <option>Manutenção/instalação de softwares: PDF, Office (Word, Excel), etc.</option>
                       <option>Manutenção/instalação do sistema operacional (Windows, erros, etc)</option>
-                      <option>Requisição/manutenção do sistema contratado (Gemmap)</option>
                       <option>Solicitação/problema relacionado com o servidor de arquivos</option>
                       <option>Liberação de sites bloqueados (para cursos como no Youtube)</option>
                       <option>Solicitação/manutenção de impressoras (consertos, troca de toners, etc.)</option>

@@ -1,5 +1,6 @@
+// Global_IP.js
 const IP = {
-  ip: '192.168.0.162',
+  ip: '192.168.0.98',
 };
 
-export default IP;
+module.exports = IP; // Alterar para CommonJS

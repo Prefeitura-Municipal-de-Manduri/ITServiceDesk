@@ -1,4 +1,4 @@
 module.exports = {
-    v: 'Sistema atualizado em: 27/02/2025 10:21:32',
+    v: 'Sistema atualizado em: 11/04/2025 09:22:32',
   };
   
