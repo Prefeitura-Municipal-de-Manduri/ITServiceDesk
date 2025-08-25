@@ -3,4 +3,4 @@ const IP = {
   ip: '192.168.0.98',
 };
 
-module.exports = IP; // Alterar para CommonJS
+module.exports = IP; // Alterar para CommonJS.,
