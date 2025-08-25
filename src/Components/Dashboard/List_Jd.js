@@ -13,8 +13,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'rec
 const List = () => {
   const [data, setData] = useState([]);
   const [pendingByMatheus, setPendingByMatheus] = useState(0);
+  const [pendingByJd, setPendingByJd] = useState(0);
   const [pendingByJoao, setPendingByJoao] = useState(0);
+
   const [completedByMatheus, setCompletedByMatheus] = useState(0);
+  const [completedByJd, setCompletedByJd] = useState(0);
   const [completedByJoao, setCompletedByJoao] = useState(0);
   // eslint-disable-next-line
   const [completedId, setCompletedId] = useState(null);
@@ -27,7 +30,7 @@ const List = () => {
         const allData = response.data;
   
         // Filtro para remover os chamados de João Luiz na tabela
-        const filteredData = allData.filter(item => item.tecnico !== "João Diogo");
+        const filteredData = allData.filter(item => item.tecnico !== "Marcelo");
   
         setData(filteredData.map((item, index) => ({
           ...item,
@@ -39,10 +42,13 @@ const List = () => {
   
         // Chamados pendentes por Matheus e João 
         const matheusPending = allData.filter(item => item.tecnico === "Marcelo" && !item.completed).length;
+        const jdPending = allData.filter(item => item.tecnico === "João Diogo" && !item.completed).length;
         const joaoPending = allData.filter(item => item.tecnico === "João Luiz" && !item.completed).length;
 
         setPendingByMatheus(matheusPending);
         setPendingByJoao(joaoPending);
+        setPendingByJoao(jdPending);
+
       })
       .catch(error => {
         console.error('Erro ao obter dados do servidor:', error);
@@ -53,9 +59,13 @@ const List = () => {
         // Filtro para contar os finalizados apenas de Matheus e João
         const matheusCompleted = response.data.filter(item => item.tecnico === "Matheus Marcelo" || "Marcelo").length;
         const joaoCompleted = response.data.filter(item => item.tecnico === "João Luiz").length;
+        const jdCompleted = response.data.filter(item => item.tecnico === "João Diogo").length;
+
   
         setCompletedByMatheus(matheusCompleted);
         setCompletedByJoao(joaoCompleted);
+        setCompletedByJoao(jdCompleted);
+
       })
       .catch(error => {
         console.error('Erro ao obter dados de atendimentos finalizados:', error);
@@ -177,6 +187,20 @@ const List = () => {
     </Flex>
   </Box>
 
+    <Box mb={4} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "300px" }} mr={{ base: 0, md: "20px" }}>
+    <Text fontWeight="bold" mb={2}>Statistics technical João Diogo:</Text>
+    <Flex align="center">
+      <BsTools />
+      <Text ml={1} mr={1}>Open calls:</Text>
+      <Text color="red">{pendingByJd}</Text>
+    </Flex>
+    <Flex align="center" mt={2}>
+      <BsCheckCircle />
+      <Text ml={1} mr={0}>Terminated Calls:</Text>
+      <Text color="blue">{completedByJd}</Text>
+    </Flex>
+  </Box>
+
   <Box mb={4} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "300px" }}>
     <Text fontWeight="bold" mb={2}>Statistics technical <br/> João Luiz:</Text>
     <Flex align="center">
@@ -196,6 +220,8 @@ const List = () => {
           <BarChart width={320} height={150} data={[
             { name: 'Marcelo', chamadosAbertos: pendingByMatheus, chamadosFinalizados: completedByMatheus },
             { name: 'João Luiz', chamadosAbertos: pendingByJoao, chamadosFinalizados: completedByJoao },
+            { name: 'João Diogo', chamadosAbertos: pendingByJd, chamadosFinalizados: completedByJd },
+
           ]}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
