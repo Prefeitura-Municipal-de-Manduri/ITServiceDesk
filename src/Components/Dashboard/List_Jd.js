@@ -47,7 +47,7 @@ const List = () => {
 
         setPendingByMatheus(matheusPending);
         setPendingByJoao(joaoPending);
-        setPendingByJoao(jdPending);
+        setPendingByJd(jdPending);
 
       })
       .catch(error => {
@@ -64,7 +64,7 @@ const List = () => {
   
         setCompletedByMatheus(matheusCompleted);
         setCompletedByJoao(joaoCompleted);
-        setCompletedByJoao(jdCompleted);
+        setCompletedByJd(jdCompleted);
 
       })
       .catch(error => {
@@ -234,13 +234,6 @@ const List = () => {
         </Box>
 
 </Flex>
-
-
-
-
-      
-
-
 
       <Table
         w="full"
