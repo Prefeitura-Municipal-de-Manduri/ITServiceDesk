@@ -72,6 +72,7 @@ app.post('/enviar-solucao', (req, res) => {
 
   const mailOptions = {
     from: config.email,
+    cc: config.email,
     to: email,
     subject: `Seu chamado foi finalizado - Suporte Técnico - ${tecnico}`,
     html: `

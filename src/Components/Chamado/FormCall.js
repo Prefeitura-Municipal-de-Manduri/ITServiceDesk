@@ -45,20 +45,19 @@ export default function App() {
     try {
       values.data = new Date().toLocaleString();
 
-    let tecnico = "Marcelo";
-
+      let tecnico = "Marcelo";
 
       if (
-        values.tipos.trim() === "Manutenção/instalação de softwares: PDF, Office (Word, Excel), etc." || 
-        values.tipos.trim() === "Manutenção relacionada a conexão com a internet e sites" || 
-        values.tipos.trim() === "Manutenção de telefone/ramal" || 
-        values.tipos.trim() === "Solicitação/manutenção de impressoras (consertos, troca de toners, etc.)"
+        values.tipos.trim() === "Manutenção/instalação de softwares: PDF, Office (Word, Excel), etc." 
       ) {
-        tecnico = "João Diogo"; 
-		//tecnico = "Marcelo";
-      }
-      values.tecnico = tecnico;
+        tecnico = "João Luiz"; 
+      } else {
 
+        const tecnicosDisponiveis = ["Marcelo", "João Diogo"];
+        tecnico = tecnicosDisponiveis[Math.floor(Math.random() * tecnicosDisponiveis.length)];
+      }
+
+      values.tecnico = tecnico;
       
 
       axios.post(`http://${IP.ip}:3001/chamados`, values)

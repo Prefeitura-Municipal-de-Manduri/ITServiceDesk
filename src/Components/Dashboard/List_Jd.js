@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ButtonGroup, Flex, IconButton, Table, Tbody, Box, Text,Td, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import { FaInfoCircle } from "react-icons/fa";
-import { BsCheck,BsFillTrashFill, BsCheckCircle, BsTools, BsFillExclamationTriangleFill} from "react-icons/bs";
+import { BsCheck,BsFillTrashFill, BsCheckCircle,BsArrowRepeat, BsTools, BsFillExclamationTriangleFill} from "react-icons/bs";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import axios from 'axios';
@@ -136,6 +136,35 @@ const List = () => {
         });
     }
   };
+
+  //alternar ti
+    const handleAlternarTecnico = (id, tecnicoAtual) => {
+    const tecnicos = ["Marcelo", "João Diogo", "João Luiz"];
+    const tecnicosDisponiveis = tecnicos.filter(t => t !== tecnicoAtual);
+
+    const novoTecnico = window.prompt(
+      `O técnico atual é ${tecnicoAtual}.\nEscolha para quem deseja transferir:\n- ${tecnicosDisponiveis.join("\n")}`
+    );
+
+    if (novoTecnico && tecnicosDisponiveis.includes(novoTecnico)) {
+      axios.put(`http://${IP.ip}:3001/chamados/${id}`, {
+        tecnico: novoTecnico
+      })
+      .then(response => {
+        console.log('Técnico alterado:', response.data);
+        // Atualiza o estado local para refletir a mudança
+        setData(data.map(item => item.id === id ? { ...item, tecnico: novoTecnico } : item));
+      })
+      .catch(error => {
+        console.error('Erro ao alterar técnico:', error);
+      });
+    } else if (novoTecnico) {
+      alert("Técnico inválido.");
+    }
+  };
+
+
+  
 
 
 
@@ -365,6 +394,8 @@ const List = () => {
                       aria-label="Delete"
                       onClick={() => handleComplete(token.id)}
                     />
+
+
                     <Popup position="left center" variant="solid" size="sm" spacing={3}  trigger={ 
                       <IconButton
                         colorScheme="blue"
@@ -373,6 +404,9 @@ const List = () => {
                       />} >
                       <div>Data e hora do chamado: {token.data}</div>
                     </Popup>
+
+
+
                     <IconButton
                       colorScheme="red"
                       variant="outline"
@@ -380,6 +414,15 @@ const List = () => {
                       aria-label="Delete"
                       onClick={() => handleDelete(token.id)}
                     />
+                      <IconButton
+                      colorScheme="blue"
+                      variant="outline"
+                      icon={<BsArrowRepeat />}
+                      aria-label="Alternar"
+                      onClick={() => handleAlternarTecnico(token.id, token.tecnico)}
+                    />
+
+
                   </ButtonGroup>
                 </Td>
               </Tr>
