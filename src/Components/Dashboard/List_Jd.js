@@ -29,8 +29,9 @@ const List = () => {
       .then(response => {
         const allData = response.data;
   
-        // Filtro para remover os chamados de João Luiz na tabela
-        const filteredData = allData.filter(item => item.tecnico !== "Marcelo");
+        // Filtro para mostrar somente os chamados de João Diogo
+        const filteredData = allData.filter(item => item.tecnico === "João Diogo");
+
   
         setData(filteredData.map((item, index) => ({
           ...item,
