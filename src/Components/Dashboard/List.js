@@ -13,8 +13,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'rec
 const List = () => {
   const [data, setData] = useState([]);
   const [pendingByMatheus, setPendingByMatheus] = useState(0);
+  const [pendingByJd, setPendingByJd] = useState(0);
   const [pendingByJoao, setPendingByJoao] = useState(0);
+
   const [completedByMatheus, setCompletedByMatheus] = useState(0);
+  const [completedByJd, setCompletedByJd] = useState(0);
   const [completedByJoao, setCompletedByJoao] = useState(0);
   // eslint-disable-next-line
   const [completedId, setCompletedId] = useState(null);
@@ -26,7 +29,9 @@ const List = () => {
       .then(response => {
         const allData = response.data;
   
+        // Filtro para remover os chamados de João Luiz na tabela
         const filteredData = allData.filter(item => item.tecnico === "João Luiz");
+
   
         setData(filteredData.map((item, index) => ({
           ...item,
@@ -36,12 +41,15 @@ const List = () => {
         const criticalCount = allData.filter(item => item.prioridade === "critico").length;
         setCriticalCount(criticalCount);
   
+        // Chamados pendentes por Matheus e João 
         const matheusPending = allData.filter(item => item.tecnico === "Marcelo" && !item.completed).length;
+        const jdPending = allData.filter(item => item.tecnico === "João Diogo" && !item.completed).length;
         const joaoPending = allData.filter(item => item.tecnico === "João Luiz" && !item.completed).length;
-
 
         setPendingByMatheus(matheusPending);
         setPendingByJoao(joaoPending);
+        setPendingByJd(jdPending);
+
       })
       .catch(error => {
         console.error('Erro ao obter dados do servidor:', error);
@@ -49,11 +57,16 @@ const List = () => {
   
     axios.get(`http://${IP.ip}:3001/finalizados`)
       .then(response => {
-        const matheusCompleted = response.data.filter(item => item.tecnico === "Marcelo" || "Matheus Marcelo").length;
+        // Filtro para contar os finalizados apenas de Matheus e João
+        const matheusCompleted = response.data.filter(item => item.tecnico === "Matheus Marcelo" || "Marcelo").length;
         const joaoCompleted = response.data.filter(item => item.tecnico === "João Luiz").length;
+        const jdCompleted = response.data.filter(item => item.tecnico === "João Diogo").length;
+
   
         setCompletedByMatheus(matheusCompleted);
         setCompletedByJoao(joaoCompleted);
+        setCompletedByJd(jdCompleted);
+
       })
       .catch(error => {
         console.error('Erro ao obter dados de atendimentos finalizados:', error);
@@ -127,7 +140,7 @@ const List = () => {
 
 
 
-  const header = ["ID", "Nome", "E-mail", "Tipo de problema", "Departamento",  "Sobre o problema", "Prioridade","TI Responsável", "Fila","Ações"];
+  const header = ["ID", "Name", "E-mail address", "Type of problem", "Department",  "Description of the problem", "Priority","TI technical", "Queue","Actions"];
   const reversedData = [...data].reverse(); 
 
   return (
@@ -144,16 +157,16 @@ const List = () => {
 
 <Flex mt="-10" flexDirection={{ base: "column", md: "row" }} justifyContent="flex-start" alignItems="flex-start">
   <Box mb={5} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "350px" }} mr={{ base: 0, md: "20px" }}>
-      <Text as="span" >Bem-vindo, </Text>
+      <Text as="span" >Welcome, </Text>
       <Text as="span"fontWeight="bold">João Luiz! 👨🏻‍💻</Text>
     
   </Box>
 
   <Box mb={5} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "350px" }} mr={{ base: 0, md: "20px" }}>
-    <Text fontWeight="bold" mb={2}>Fila de prioridade:</Text>
+    <Text fontWeight="bold" mb={2}>Priority Queue:</Text>
     <Flex align="center" mt={2}>
       <BsFillExclamationTriangleFill />
-      <Text ml={1} mr={1}>Chamados críticos: </Text>
+      <Text ml={1} mr={1}>So-called critics: </Text>
       <Text color="orange.600">{criticalCount}</Text>
 
     </Flex>
@@ -162,57 +175,66 @@ const List = () => {
 
 
   <Box mb={4} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "300px" }} mr={{ base: 0, md: "20px" }}>
-    <Text fontWeight="bold" mb={2}>Estatísticas técnico Marcelo:</Text>
+    <Text fontWeight="bold" mb={2}>Statistics technical Marcelo:</Text>
     <Flex align="center">
       <BsTools />
-      <Text ml={1} mr={1}>Chamados abertos:</Text>
+      <Text ml={1} mr={1}>Open calls:</Text>
       <Text color="red">{pendingByMatheus}</Text>
     </Flex>
     <Flex align="center" mt={2}>
       <BsCheckCircle />
-      <Text ml={1} mr={0}>Chamados finalizados:</Text>
+      <Text ml={1} mr={0}>Terminated Calls:</Text>
       <Text color="blue">{completedByMatheus}</Text>
     </Flex>
   </Box>
 
-  <Box mb={4} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "300px" }}>
-    <Text fontWeight="bold" mb={2}>Estatísticas técnico <br/> João Luiz:</Text>
+    <Box mb={4} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "300px" }} mr={{ base: 0, md: "20px" }}>
+    <Text fontWeight="bold" mb={2}>Statistics technical João Diogo (internship):</Text>
     <Flex align="center">
       <BsTools />
-      <Text ml={1} mr={1}>Chamados abertos:</Text>
+      <Text ml={1} mr={1}>Open calls:</Text>
+      <Text color="red">{pendingByJd}</Text>
+    </Flex>
+    <Flex align="center" mt={2}>
+      <BsCheckCircle />
+      <Text ml={1} mr={0}>Terminated Calls:</Text>
+      <Text color="blue">{completedByJd}</Text>
+    </Flex>
+  </Box>
+
+  <Box mb={4} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "300px" }}>
+    <Text fontWeight="bold" mb={2}>Statistics technical <br/> João Luiz:</Text>
+    <Flex align="center">
+      <BsTools />
+      <Text ml={1} mr={1}>Open calls:</Text>
       <Text color="red">{pendingByJoao}</Text>
     </Flex>
     <Flex align="center" mt={2}>
       <BsCheckCircle />
-      <Text ml={1} mr={0}>Chamados finalizados:</Text>
+      <Text ml={1} mr={0}>Terminated Calls:</Text>
       <Text color="blue">{completedByJoao}</Text>
     </Flex>
   </Box>
 
   <Box mb={5} border="2px solid #E2E8F0" borderRadius="md" p={4} textAlign="center" flex="1" maxW={{ base: "100%", md: "350px" }}>
-          <Text fontWeight="bold" mb={2}>Relação de Chamados: </Text>
+          <Text fontWeight="bold" mb={2}>Call Statistics:</Text>
           <BarChart width={320} height={150} data={[
             { name: 'Marcelo', chamadosAbertos: pendingByMatheus, chamadosFinalizados: completedByMatheus },
             { name: 'João Luiz', chamadosAbertos: pendingByJoao, chamadosFinalizados: completedByJoao },
+            { name: 'João Diogo', chamadosAbertos: pendingByJd, chamadosFinalizados: completedByJd },
+
           ]}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="chamadosAbertos" fill="#8884d8" />
-            <Bar dataKey="chamadosFinalizados" fill="#82ca9d" />
+            <Bar dataKey="Open_Calls" fill="#8884d8" />
+            <Bar dataKey="Terminated_Calls" fill="#82ca9d" />
           </BarChart>
         </Box>
 
 </Flex>
-
-
-
-
-      
-
-
 
       <Table
         w="full"

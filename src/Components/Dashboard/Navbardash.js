@@ -11,9 +11,6 @@ import { GrAddCircle } from "react-icons/gr";
 import MinhaImagem from "../../Images/image.png"
 import Logo from "../../Images/logo.png"
 
-
-
-
 const Choc = () => {
 
   const navigate = useNavigate();
