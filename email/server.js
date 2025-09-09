@@ -17,7 +17,18 @@ app.use(cors());
    Rota original: Enviar novo chamado
    ============================= */
 app.post('/chamados', (req, res) => {
+  
   const { tecnico, nome, email, tipos, departamento, sobre } = req.body;
+
+  // Define o destinatário baseado no técnico
+  let destinatario;
+  if (tecnico === 'João Luiz') {
+    destinatario = 'cpd@manduri.sp.gov.br';
+  } else if (tecnico === 'Marcelo') {
+    destinatario = 'ti@manduri.sp.gov.br';
+  } else {
+    destinatario = 'ti@manduri.sp.gov.br'; // padrão, caso o nome não seja reconhecido
+  }
 
   const transporter = nodemailer.createTransport({
     host: config.provedor,
@@ -31,7 +42,7 @@ app.post('/chamados', (req, res) => {
 
   const mailOptions = {
     from: config.email,
-    to: 'cpd@manduri.sp.gov.br',
+    to: destinatario,
     subject: `Novo Chamado Recebido - Responsável TI: ${tecnico}`,
     html: `
       <p>Um novo chamado foi recebido:</p>
@@ -73,7 +84,7 @@ app.post('/enviar-solucao', (req, res) => {
   const mailOptions = {
     from: config.email,
     cc: config.email,
-    to: email,
+    to: 'ti@manduri.sp.gov.br',
     subject: `Seu chamado foi finalizado - Suporte Técnico - ${tecnico}`,
     html: `
       <p>Olá <strong>${nome}</strong>,</p>

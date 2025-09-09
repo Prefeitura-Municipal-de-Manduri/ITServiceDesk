@@ -53,7 +53,7 @@ export default function App() {
         tecnico = "João Luiz"; 
       } else {
 
-        const tecnicosDisponiveis = ["Marcelo", "João Diogo"];
+        const tecnicosDisponiveis = ["Marcelo", "Marcelo"];
         tecnico = tecnicosDisponiveis[Math.floor(Math.random() * tecnicosDisponiveis.length)];
       }
 
