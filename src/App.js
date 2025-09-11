@@ -11,7 +11,6 @@ import Contato from './Components/Contato/Contato';
 import Consulta from './Components/Consulta/ConsultaMain';
 import Downloads from './Components/Downloads/Downloads';
 import Dashboard_Math from './Components/Dashboard/Dashboard_Math';
-import Dashboard_Jd from './Components/Dashboard/Dashboard_Jd';
 
 import Dashboard_Admin from './Components/Dashboard/Dashboard_Admin';
 import FAQSection from './Components/Home/FAQSection'
@@ -61,7 +60,6 @@ function App() {
 
                 <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />}/>
                 <Route path="/dashboard_math" element={<ProtectedRoute element={<Dashboard_Math />} />}/>
-                <Route path="/dashboard_jd" element={<ProtectedRoute element={<Dashboard_Jd />} />}/>
 
                 <Route path="/dashboard_admin" element={<ProtectedRoute element={<Dashboard_Admin />} />}/>
 
