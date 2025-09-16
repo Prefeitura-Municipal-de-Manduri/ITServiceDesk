@@ -82,9 +82,9 @@ app.post('/enviar-solucao', (req, res) => {
   });
 
   const mailOptions = {
-    from: config.email,
-    cc: config.email,
-    to: 'ti@manduri.sp.gov.br',
+    from: config.email,	
+	  to: email,
+	  cc: ['ti@manduri.sp.gov.br'],
     subject: `Seu chamado foi finalizado - Suporte Técnico - ${tecnico}`,
     html: `
       <p>Olá <strong>${nome}</strong>,</p>
