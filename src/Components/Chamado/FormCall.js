@@ -70,7 +70,7 @@ export default function App() {
    
           const content = `
             Seu chamado foi criado com sucesso!<br/>
-            O profissional responsável pelo seu atendimento será: <br /> 
+            O responsável pelo seu atendimento será: <br /> 
             <strong>${tecnico}</strong>!<br /><br />
             <strong style="text-align: center;"><span style="font-size: 22px; color: red;">ATENÇÃO</span><br/>
             Você é o <span style="font-size: 20px; color: red;">${numChamados + 1}º</span> na fila de atendimento.</strong><br/><br/>
